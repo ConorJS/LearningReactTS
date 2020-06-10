@@ -1,7 +1,7 @@
 //== imports ==========================================================================================================
 
-import React from 'react';
-import Board from './Board';
+import React, { Component } from 'react';
+import Board from './Board.tsx';
 
 //== constants ========================================================================================================
 
@@ -22,7 +22,7 @@ const INITIAL_PLAYER = PLAYER_INFO.PLAYER_TWO;
 
 //== class init =======================================================================================================
 
-export default class Game extends React.Component {
+export default class Game extends Component {
   constructor(props) {
     super(props);
 
@@ -51,31 +51,26 @@ export default class Game extends React.Component {
 
   render() {
     if (this.state.hasError) {
-      return (
-        <div>Error: {!this.state.errorMessage ? "<No message>" : this.state.errorMessage}</div>
-      );
+      return <div>Error: {!this.state.errorMessage ? "<No message>" : this.state.errorMessage}</div>
 
     } else {
-      return (
-        <div className="game">
+      return <div className="game">
+        <div className="game-board">
+          <Board
+            movesToDisplay={this.getMovesToDisplay()}
+            boardSize={this.boardSize}
+            markerPlacedCallback={(x, y) => this.onTurn(x, y, this.state.playerWhosTurnItIs.marker)}
+            gameInProgress={this.state.playerWhoHasWon === null}
+          />
+        </div>
 
-          <div className="game-board">
-            <Board
-              movesToDisplay={this.getMovesToDisplay()}
-              boardSize={this.boardSize}
-              markerPlacedCallback={(x, y) => this.onTurn(x, y, this.state.playerWhosTurnItIs.marker)}
-              gameInProgress={this.state.playerWhoHasWon === null}
-            />
-          </div>
-
-          <div className="game-info">
-            <div className="status">{this.renderStatusMessage()}</div>
-            <div className="move-history-list">
-              {this.renderMoveHistoryList()}
-            </div>
+        <div className="game-info">
+          <div className="status">{this.renderStatusMessage()}</div>
+          <div className="move-history-list">
+            {this.renderMoveHistoryList()}
           </div>
         </div>
-      );
+      </div>
     }
   };
 

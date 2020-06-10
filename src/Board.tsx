@@ -21,9 +21,7 @@ export default class Board extends React.Component {
       rowsInTable.push(this.renderRow(i));
     }
 
-    return (
-      <div>{rowsInTable}</div>
-    );
+    return <div>{rowsInTable}</div>;
   };
 
   /**
